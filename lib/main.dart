@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:green_alert/home_page.dart';
-import 'package:green_alert/kondisi_tanaman.dart';
 import 'package:green_alert/providers/page_provider.dart';
 import 'package:provider/provider.dart';
 

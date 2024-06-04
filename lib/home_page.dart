@@ -1,6 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:green_alert/humidity_page.dart';
 import 'package:green_alert/kondisi_tanaman.dart';
+import 'package:green_alert/ph_page.dart';
 import 'package:green_alert/shared/themes.dart';
+import 'package:green_alert/uv_page.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
 class HomePage extends StatelessWidget {
@@ -124,9 +129,17 @@ class HomePage extends StatelessWidget {
                   "Kelembaban Tanah",
                   style: blackText.copyWith(fontSize: 20, fontWeight: bold),
                 ),
-                Text(
-                  "Lihat Detail",
-                  style: greenText.copyWith(fontWeight: bold),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const HumidityPage()));
+                  },
+                  child: Text(
+                    "Lihat Detail",
+                    style: greenText.copyWith(fontWeight: bold),
+                  ),
                 )
               ],
             ),
@@ -166,9 +179,17 @@ class HomePage extends StatelessWidget {
                   "Index UV",
                   style: blackText.copyWith(fontSize: 20, fontWeight: bold),
                 ),
-                Text(
-                  "Lihat Detail",
-                  style: greenText.copyWith(fontWeight: bold),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const UvPage()));
+                  },
+                  child: Text(
+                    "Lihat Detail",
+                    style: greenText.copyWith(fontWeight: bold),
+                  ),
                 )
               ],
             ),
@@ -208,9 +229,17 @@ class HomePage extends StatelessWidget {
                   "pH Tanah",
                   style: blackText.copyWith(fontSize: 20, fontWeight: bold),
                 ),
-                Text(
-                  "Lihat Detail",
-                  style: greenText.copyWith(fontWeight: bold),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const PhPage()));
+                  },
+                  child: Text(
+                    "Lihat Detail",
+                    style: greenText.copyWith(fontWeight: bold),
+                  ),
                 )
               ],
             ),
