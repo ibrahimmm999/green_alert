@@ -1,18 +1,12 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:green_alert/models/graphpoint_model.dart';
 import 'package:green_alert/shared/themes.dart';
 import 'package:green_alert/widgets/chart_data.dart';
+import 'package:intl/intl.dart';
 
 class HumidityPage extends StatelessWidget {
   const HumidityPage({super.key});
-
-  List<LineChartBarData> get secondLineBarsData => [
-        secondLineBarsData1,
-        secondLineBarsData2,
-        secondLineBarsData3,
-      ];
 
   LineChartBarData get secondLineBarsData1 => LineChartBarData(
         isCurved: true,
@@ -68,6 +62,13 @@ class HumidityPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final now = DateTime.now();
+    final last7Days =
+        List.generate(7, (index) => now.subtract(Duration(days: 6 - index)))
+            .toList();
+    final formattedDates = last7Days
+        .map((date) => DateFormat('EEEE, dd MMMM yyyy', 'id_ID').format(date));
+    final reversedDates = formattedDates.toList().reversed;
     Widget header() {
       return Container(
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
@@ -101,7 +102,7 @@ class HumidityPage extends StatelessWidget {
             ),
             Text(
               "Kelembapan Tanah",
-              style: purpleText.copyWith(fontSize: 20, fontWeight: bold),
+              style: blackText.copyWith(fontSize: 20, fontWeight: bold),
             )
           ],
         ),
@@ -120,9 +121,63 @@ class HumidityPage extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(right: 32),
-            child: ChartData(graphPoints),
-          )
+            padding: const EdgeInsets.only(right: 32, bottom: 12),
+            child: ChartData(
+              graphPoints,
+              color: blue,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Data",
+                  style: blueText.copyWith(fontSize: 20, fontWeight: bold),
+                ),
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: reversedDates
+                      .map((e) => Text(
+                            e.toString(),
+                            style: blackText.copyWith(fontWeight: bold),
+                          ))
+                      .toList(),
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "50%",
+                      style: blueText.copyWith(fontWeight: bold),
+                    ),
+                    Text("96%", style: blueText.copyWith(fontWeight: bold)),
+                    Text("80%", style: blueText.copyWith(fontWeight: bold)),
+                    Text("61%", style: blueText.copyWith(fontWeight: bold)),
+                    Text("52%", style: blueText.copyWith(fontWeight: bold)),
+                    Text("21%", style: blueText.copyWith(fontWeight: bold)),
+                    Text("50%", style: blueText.copyWith(fontWeight: bold)),
+                  ],
+                )
+              ],
+            ),
+          ),
+          Container(
+            width: double.infinity,
+            margin: EdgeInsets.symmetric(
+                horizontal: defaultMargin - 10, vertical: 12),
+            height: 1,
+            color: blue,
+          ),
         ],
       ),
     );

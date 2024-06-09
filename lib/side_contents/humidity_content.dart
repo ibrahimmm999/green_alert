@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:green_alert/shared/themes.dart';
 
 class HumidityContent extends StatelessWidget {
-  const HumidityContent({super.key});
+  const HumidityContent({super.key, required this.humidity});
+  final String humidity;
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +13,7 @@ class HumidityContent extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "45%",
+            "$humidity %",
             style: blackText.copyWith(fontWeight: bold, fontSize: 20),
           ),
           const SizedBox(
@@ -23,7 +24,14 @@ class HumidityContent extends StatelessWidget {
             style: blackText.copyWith(fontWeight: bold),
           ),
           Text(
-            "Kelembapan tanah saat ini berada di batas bawah kisaran normal (40% - 60%). Ini menunjukkan bahwa tanah mulai mengering dan memerlukan perhatian segera.",
+            double.parse(humidity) < 30
+                ? "Kelembapan tanah sangat rendah (< 30%). Ini menunjukkan bahwa tanah sangat kering dan membutuhkan perhatian segera."
+                : double.parse(humidity) <= 40
+                    ? "Kelembapan tanah berada di bawah kisaran normal (30% - 40%). Tanah mulai mengering dan membutuhkan perhatian."
+                    : double.parse(humidity) <= 60 &&
+                            double.parse(humidity) >= 40
+                        ? " Kelembapan tanah dalam kisaran normal (40% - 60%). Ini menunjukkan kondisi tanah yang baik untuk pertumbuhan tanaman."
+                        : "Kelembapan tanah di atas kisaran normal (> 60%). Ini menunjukkan bahwa tanah terlalu basah.",
             // textAlign: TextAlign.justify,
             style: blackText,
           ),
@@ -35,8 +43,14 @@ class HumidityContent extends StatelessWidget {
             style: blackText.copyWith(fontWeight: bold),
           ),
           Text(
-            "Lakukan penyiraman untuk meningkatkan kelembapan tanah. Pastikan tanah mendapatkan air yang cukup untuk mencapai setidaknya 50%, agar kondisi tetap optimal untuk tanaman.",
-            // textAlign: TextAlign.justify,
+            double.parse(humidity) < 30
+                ? "Segera lakukan penyiraman untuk meningkatkan kelembapan tanah. Pastikan tanah mendapatkan air yang cukup untuk mencapai setidaknya 50%."
+                : double.parse(humidity) <= 40
+                    ? "Lakukan penyiraman untuk meningkatkan kelembapan tanah. Pastikan tanah mendapatkan air yang cukup untuk mencapai setidaknya 50%."
+                    : double.parse(humidity) <= 60 &&
+                            double.parse(humidity) > 40
+                        ? "Tidak diperlukan tindakan khusus. Pertahankan penyiraman rutin untuk menjaga kelembapan tanah."
+                        : "Kurangi frekuensi penyiraman untuk mencegah kelembapan berlebihan yang dapat menyebabkan penyakit tanaman.",
             style: blackText,
           ),
         ],

@@ -1,18 +1,26 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:green_alert/humidity_page.dart';
-import 'package:green_alert/kondisi_tanaman.dart';
-import 'package:green_alert/ph_page.dart';
+import 'package:green_alert/pages/humidity_page.dart';
+import 'package:green_alert/pages/kondisi_tanaman.dart';
+import 'package:green_alert/pages/ph_page.dart';
+import 'package:green_alert/pages/profile_page.dart';
+import 'package:green_alert/pages/settings_page.dart';
+import 'package:green_alert/providers/data_provider.dart';
 import 'package:green_alert/shared/themes.dart';
-import 'package:green_alert/uv_page.dart';
+import 'package:green_alert/pages/uv_page.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
+import 'package:provider/provider.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
   @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  @override
   Widget build(BuildContext context) {
+    DataProvider dataProvider = Provider.of<DataProvider>(context);
     Widget header() {
       return Container(
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
@@ -37,12 +45,18 @@ class HomePage extends StatelessWidget {
               children: [
                 Padding(
                   padding: const EdgeInsets.only(right: 8),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(90),
-                    child: Image.asset(
-                      'assets/avatar.png',
-                      fit: BoxFit.cover,
-                      height: 48,
+                  child: GestureDetector(
+                    onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const ProfilePage())),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(90),
+                      child: Image.asset(
+                        'assets/avatar.png',
+                        fit: BoxFit.cover,
+                        height: 48,
+                      ),
                     ),
                   ),
                 ),
@@ -65,12 +79,13 @@ class HomePage extends StatelessWidget {
             Row(
               children: [
                 IconButton(
-                  icon: Icon(Icons.notifications_none_rounded),
-                  onPressed: () {},
-                ),
-                IconButton(
-                  icon: Icon(Icons.settings_outlined),
-                  onPressed: () {},
+                  icon: const Icon(Icons.settings_outlined),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const SettingsPage()));
+                  },
                 ),
               ],
             )
@@ -82,36 +97,42 @@ class HomePage extends StatelessWidget {
     Widget sehat() {
       return GestureDetector(
         onTap: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => KondisiTanamanPage()));
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const KondisiTanamanPage()));
         },
         child: Padding(
           padding:
               const EdgeInsets.only(top: 24, bottom: 36, left: 24, right: 24),
-          child: Row(
-            children: [
-              Image.asset(
-                'assets/daun.png',
-                height: 70,
-                fit: BoxFit.contain,
-              ),
-              const SizedBox(
-                width: 20,
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Sehat",
-                    style: greenText.copyWith(fontSize: 18, fontWeight: bold),
-                  ),
-                  Text(
-                    "Kondisi tanaman saat ini optimal",
-                    style: blackText.copyWith(fontWeight: medium),
-                  )
-                ],
-              )
-            ],
+          child: Container(
+            color: white,
+            width: double.infinity,
+            child: Row(
+              children: [
+                Image.asset(
+                  'assets/daun.png',
+                  height: 70,
+                  fit: BoxFit.contain,
+                ),
+                const SizedBox(
+                  width: 20,
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Sehat",
+                      style: greenText.copyWith(fontSize: 18, fontWeight: bold),
+                    ),
+                    Text(
+                      "Kondisi tanaman saat ini optimal",
+                      style: blackText.copyWith(fontWeight: medium),
+                    )
+                  ],
+                )
+              ],
+            ),
           ),
         ),
       );
@@ -154,13 +175,14 @@ class HomePage extends StatelessWidget {
               center:
                   Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                 Text(
-                  "45%",
+                  "${dataProvider.listData.last['humidity']} %",
                   style: blackText.copyWith(fontSize: 20, fontWeight: bold),
                 )
               ]),
               backgroundColor: white2,
               progressColor: blue,
-              percent: 0.45,
+              percent:
+                  double.parse(dataProvider.listData.last['humidity']) / 100,
             )
           ],
         ),
@@ -204,13 +226,14 @@ class HomePage extends StatelessWidget {
               center:
                   Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                 Text(
-                  "3.1",
+                  (double.parse(dataProvider.listData.last['uv']) / 10)
+                      .toString(),
                   style: blackText.copyWith(fontSize: 20, fontWeight: bold),
                 )
               ]),
               backgroundColor: white2,
               progressColor: yellow,
-              percent: 0.31,
+              percent: double.parse(dataProvider.listData.last['uv']) / 100,
             )
           ],
         ),
@@ -254,13 +277,13 @@ class HomePage extends StatelessWidget {
               center:
                   Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                 Text(
-                  "6.6",
+                  "${dataProvider.listData.last['ph']}",
                   style: blackText.copyWith(fontSize: 20, fontWeight: bold),
                 )
               ]),
               backgroundColor: white2,
               progressColor: brown,
-              percent: 0.66,
+              percent: double.parse(dataProvider.listData.last['ph']) / 14,
             )
           ],
         ),

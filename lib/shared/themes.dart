@@ -8,10 +8,11 @@ Color green = const Color(0xff527721);
 Color grey = const Color(0xff9698A9);
 Color white = const Color(0xffFFFFFF);
 Color blue = const Color(0xff0077B6);
-Color yellow = const Color(0xffECE53E);
+Color yellow = const Color.fromARGB(255, 234, 188, 36);
 Color white2 = const Color(0xffFAFAFA);
 Color brown = const Color(0xff97651B);
 Color purple = const Color(0xff4D4C7D);
+Color red = const Color.fromARGB(255, 203, 62, 52);
 
 TextStyle greyText = GoogleFonts.inter(color: grey);
 TextStyle whiteText = GoogleFonts.inter(color: white);
@@ -19,6 +20,8 @@ TextStyle greenText = GoogleFonts.inter(color: green);
 TextStyle blackText = GoogleFonts.inter(color: Colors.black);
 TextStyle blueText = GoogleFonts.inter(color: blue);
 TextStyle purpleText = GoogleFonts.inter(color: purple);
+TextStyle yellowText = GoogleFonts.inter(color: yellow);
+TextStyle brownText = GoogleFonts.inter(color: brown);
 
 FontWeight light = FontWeight.w300;
 FontWeight regular = FontWeight.w400;

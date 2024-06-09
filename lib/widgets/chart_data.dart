@@ -6,7 +6,8 @@ import 'package:intl/intl.dart';
 
 class ChartData extends StatelessWidget {
   final List<GraphPoint> points;
-  const ChartData(this.points, {super.key});
+  const ChartData(this.points, {super.key, required this.color});
+  final Color color;
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +62,7 @@ class ChartData extends StatelessWidget {
           ),
           lineBarsData: [
             LineChartBarData(
-                color: blue,
+                color: color,
                 spots: points.map((e) => FlSpot(e.x, e.y)).toList(),
                 isCurved: false,
                 dotData: const FlDotData(show: true))

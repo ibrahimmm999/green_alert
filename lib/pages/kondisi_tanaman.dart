@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:green_alert/providers/data_provider.dart';
 import 'package:green_alert/side_contents/humidity_content.dart';
 import 'package:green_alert/side_contents/ph_content.dart';
 import 'package:green_alert/providers/page_provider.dart';
@@ -13,6 +14,7 @@ class KondisiTanamanPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     PageProvider pageProvider = Provider.of<PageProvider>(context);
+    DataProvider dataProvider = Provider.of<DataProvider>(context);
     Widget header() {
       return Container(
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
@@ -46,7 +48,7 @@ class KondisiTanamanPage extends StatelessWidget {
             ),
             Text(
               "Kondisi Tanaman",
-              style: purpleText.copyWith(fontSize: 20, fontWeight: bold),
+              style: blackText.copyWith(fontSize: 20, fontWeight: bold),
             )
           ],
         ),
@@ -94,19 +96,25 @@ class KondisiTanamanPage extends StatelessWidget {
       switch (pageProvider.currPage) {
         case 0:
           {
-            return const HumidityContent();
+            return HumidityContent(
+              humidity: dataProvider.listData.last["humidity"],
+            );
           }
         case 1:
           {
-            return const PhContent();
+            return PhContent(
+              ph: dataProvider.listData.last["ph"],
+            );
           }
         case 2:
           {
-            return const UvContent();
+            return UvContent(uv: dataProvider.listData.last["uv"]);
           }
         default:
           {
-            return const HumidityContent();
+            return HumidityContent(
+              humidity: dataProvider.listData.last["humidity"],
+            );
           }
       }
     }
